@@ -73,6 +73,7 @@
     sudo kubeadm init \
       --pod-network-cidr=10.244.0.0/16 \
       --apiserver-advertise-address=<internal_ip_of_your_master_node> \
+      --kubernetes-version=1.15.3 \
       --ignore-preflight-errors=NumCPU
     ```
 
