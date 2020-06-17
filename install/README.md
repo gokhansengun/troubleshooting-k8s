@@ -2,12 +2,12 @@
 
 ## Assumptions
 
-- 3 VMs pre-installed with Ubuntu 18.04.3 LTS, accessing internet
+- 2 VMs pre-installed with Ubuntu 18.04.3 LTS, accessing internet
 - All VMs should have at least 1 core, 2GB RAM and 10GB disk space
 
 ## Steps
 
-1. Install `docker` on the all the nodes (`master-0`, `node-0`, `node-1`). Use below set of commands.
+1. Install `docker` on the all the nodes (`master-0`, `node-0`). Use below set of commands.
 
     ```bash
     sudo apt-get install -y \
@@ -41,7 +41,7 @@
     sudo usermod -aG docker $USER
     ```
 
-1. Install `Kubernetes` packages on all the nodes (`master-0`, `node-0`, `node-1`). Use below set of commands.
+1. Install `Kubernetes` packages on all the nodes (`master-0`, `node-0`). Use below set of commands.
 
     ```bash
     curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
@@ -94,7 +94,7 @@
     --discovery-token-ca-cert-hash sha256:633fbfab4015427e30327f3c5410fa698a1db7bf9d13f396b841b2de1e4e2987
     ```
 
-1. Run the command you have taken note of from the previous step on nodes (node-0, node-1).
+1. Run the command you have taken note of from the previous step on nodes (node-0).
 
     ```bash
     sudo kubeadm join <internal_ip_of_your_master_node> --token <token> \
