@@ -56,9 +56,9 @@
 
     ```bash
     sudo apt-get install -y kubernetes-cni=0.7.5-00
-    sudo apt-get install -y kubelet=1.15.3-00
-    sudo apt-get install -y kubectl=1.15.3-00
-    sudo apt-get install -y kubeadm=1.15.3-00
+    sudo apt-get install -y kubelet=1.18.3-00
+    sudo apt-get install -y kubectl=1.18.3-00
+    sudo apt-get install -y kubeadm=1.18.3-00
     ```
 
 1. Make sure that the swap is disabled, disable it if enabled using below command. Note that this only sets the swap off until next reboot. Make sure that there are no swap entry in `/etc/fstab` file.
@@ -73,7 +73,7 @@
     sudo kubeadm init \
       --pod-network-cidr=10.244.0.0/16 \
       --apiserver-advertise-address=<internal_ip_of_your_master_node> \
-      --kubernetes-version=1.15.3 \
+      --kubernetes-version=1.18.3 \
       --ignore-preflight-errors=NumCPU
     ```
 
@@ -115,7 +115,7 @@
 1. We are missing a networking plugin, let's install Weave using below command.
 
     ```bash
-    kubectl apply -f https://cloud.weave.works/k8s/net?k8s-version=1.15
+    kubectl apply -f https://cloud.weave.works/k8s/net?k8s-version=1.18
     ```
 
     After `weave` pods are created, situation should be better and everything should be in `Running` state.
