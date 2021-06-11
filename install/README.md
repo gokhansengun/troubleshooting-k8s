@@ -2,7 +2,7 @@
 
 ## Assumptions
 
-- 2 VMs pre-installed with Ubuntu 18.04.3 LTS, accessing internet
+- 2 VMs pre-installed with Ubuntu 20.04.1 LTS, accessing internet
 - All VMs should have at least 1 core, 2GB RAM and 10GB disk space
 
 ## Steps
@@ -29,16 +29,38 @@
     sudo apt-get -y update
     ```
 
-    Install very specific version (18.06.1) of docker
+    Install very specific version (19.03.13) of docker
 
     ```bash
-    sudo apt-get install -y docker-ce=18.06.1~ce~3-0~ubuntu
+    sudo apt-get install -y docker-ce=5:19.03.13~3-0~ubuntu-focal
     ```
 
     Add user to Docker group
 
     ```bash
     sudo usermod -aG docker $USER
+    ```
+
+    Change cgroup driver to systemd
+
+    ```bash
+sudo tee /etc/docker/daemon.json <<EOF
+{
+    "exec-opts": ["native.cgroupdriver=systemd"],
+    "log-driver": "json-file",
+    "log-opts": {
+        "max-size": "100m"
+    },
+    "storage-driver": "overlay2"
+}
+EOF
+    ```
+
+    Restart docker daemon with cgroup driver systemd 
+
+    ```bash
+    sudo systemctl daemon-reload
+    sudo systemctl restart docker
     ```
 
 1. Install `Kubernetes` packages on all the nodes (`master-0`, `node-0`). Use below set of commands.
@@ -55,10 +77,10 @@
     Now install the packages.
 
     ```bash
-    sudo apt-get install -y kubernetes-cni=0.7.5-00
-    sudo apt-get install -y kubelet=1.18.3-00
-    sudo apt-get install -y kubectl=1.18.3-00
-    sudo apt-get install -y kubeadm=1.18.3-00
+    sudo apt-get install -y kubernetes-cni=0.8.6-00
+    sudo apt-get install -y kubelet=1.18.9-00
+    sudo apt-get install -y kubectl=1.18.9-00
+    sudo apt-get install -y kubeadm=1.18.9-00
     ```
 
 1. Make sure that the swap is disabled, disable it if enabled using below command. Note that this only sets the swap off until next reboot. Make sure that there are no swap entry in `/etc/fstab` file.
@@ -73,7 +95,7 @@
     sudo kubeadm init \
       --pod-network-cidr=10.244.0.0/16 \
       --apiserver-advertise-address=<internal_ip_of_your_master_node> \
-      --kubernetes-version=1.18.3 \
+      --kubernetes-version=1.18.9 \
       --ignore-preflight-errors=NumCPU
     ```
 
